@@ -9,4 +9,6 @@ public interface ViceDeanRepository extends JpaRepository<ViceDean, Long> {
     boolean existsBySsn(String ssn);
 
     boolean existsByPhoneNumber(String phone);
+
+    ViceDean findByUsernameEquals(String username);
 }
