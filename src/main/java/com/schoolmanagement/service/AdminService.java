@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -29,6 +30,7 @@ public class AdminService {
     private final GuestUserRepository guestUserRepository;
 
     private final UserRoleService userRoleService;
+    private final PasswordEncoder passwordEncoder;
 
     // Not: save()  *******************************************************
     public ResponseMessage save(AdminRequest request) {
@@ -43,7 +45,8 @@ public class AdminService {
 
         // !!! admin rolu veriliyor
         admin.setUserRole(userRoleService.getUserRole(RoleType.ADMIN));
-        // Not: password plain text --> encode
+        //!!! password encode ediliyor
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
 
         Admin savedDate = adminRepository.save(admin);
 
