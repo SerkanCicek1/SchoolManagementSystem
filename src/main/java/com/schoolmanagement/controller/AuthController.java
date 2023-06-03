@@ -63,7 +63,7 @@ public class AuthController {
 
         // !!! Rol mevcutsa ve TEACHER ise advisor durumu setleniyor
         if(role.isPresent()) {
-            authResponse.role(role.get());
+            authResponse.role(role.get()); // TODO kontrol edilecek
             if(role.get().equalsIgnoreCase(RoleType.TEACHER.name())) {
                 authResponse.isAdvisor(userDetails.getIsAdvisor().toString());
             }

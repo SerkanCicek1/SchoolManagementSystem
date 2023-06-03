@@ -26,5 +26,5 @@ public class Lesson implements Serializable {
 
     private Integer creditScore ;
 
-    private Boolean isCompulsory; // zorunlu mu ??
+    private Boolean isCompulsory; // bu ders zorunlu mu ??
 }

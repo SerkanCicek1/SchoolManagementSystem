@@ -29,7 +29,7 @@ public class Student extends User {
     @Column(unique = true)
     private String email;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.PERSIST) // !!! buradaki persist kaldirilacak
     @JsonIgnore
     private AdvisorTeacher advisorTeacher;
 
@@ -44,7 +44,7 @@ public class Student extends User {
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_program_id")
     )
-    private Set<LessonProgram> lessonsProgramList; // !!! Duzeltildi
+    private Set<LessonProgram> lessonsProgramList;
 
     @JsonIgnore
     @ManyToMany

@@ -26,7 +26,7 @@ public class EducationTerm implements Serializable {
     private Long id;
 
     @NotNull(message = "Education Term must not be empty")
-    // @Enumerated(EnumType.STRING) // !!! bu kisim kaldirilacak
+    // @Enumerated(EnumType.STRING)
     private Term term;
 
     @NotNull(message ="Start Date must not be empty")

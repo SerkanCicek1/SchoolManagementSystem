@@ -76,9 +76,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                     admin.getPassword(),
                     admin.getUserRole().getRoleType().name()); //  RoleType.ADMIN.name()
         }
-
-        // TODO --> Security katmani icin genel exception handle class olusturulacak
-        // throw new ConflictException("no User");
         throw new UsernameNotFoundException("User '" + username + "' not found");
     }
 }

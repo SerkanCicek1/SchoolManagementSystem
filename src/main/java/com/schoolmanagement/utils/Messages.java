@@ -8,4 +8,5 @@ public class Messages {
     public static final String ALREADY_REGISTER_MESSAGE_PHONE_NUMBER = "Error : User with phone number %s already register" ;
     public static final String NOT_PERMITTED_METHOD_MESSAGE = "You dont have any permission to change this value" ;
     public static final String NOT_FOUND_USER_MESSAGE = "Error: User not found" ;
+    public static final String NOT_FOUND_USER2_MESSAGE = "Error: User not found with id %s" ;
 }
