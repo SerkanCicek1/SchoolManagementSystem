@@ -5,6 +5,7 @@ import com.schoolmanagement.payload.response.LessonProgramResponse;
 import com.schoolmanagement.payload.response.ResponseMessage;
 import com.schoolmanagement.service.LessonProgramService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,7 +72,25 @@ public class LessonProgramController {
 
     }
 
+    // Not :  getLessonProgramByStudent() ******************************************************
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER','STUDENT','TEACHER')")
+    @GetMapping("/getAllLessonProgramByStudent") //http://localhost:8080/lessonPrograms/getAllLessonProgramByStudent
+    public Set<LessonProgramResponse> getAllLessonProgramByStudent(HttpServletRequest httpServletRequest) {
 
+        String username = (String) httpServletRequest.getAttribute("username");
+        return lessonProgramService.getLessonProgramByStudent(username);
+    }
 
+    // Not :  getAllWithPage() ******************************************************************
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER','TEACHER','STUDENT')")
+    @GetMapping("/search")
+    public Page<LessonProgramResponse> search(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "type") String type
+    ){
+        return lessonProgramService.search(page,size,sort,type);
+    }
 
 }

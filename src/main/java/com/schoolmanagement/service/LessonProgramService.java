@@ -13,10 +13,15 @@ import com.schoolmanagement.repository.LessonProgramRepository;
 import com.schoolmanagement.utils.Messages;
 import com.schoolmanagement.utils.TimeControl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -154,5 +159,44 @@ public class LessonProgramService {
                 .lessonName(lessonProgram.getLesson())
                 //TODO Student yazilinca buraya ekleme yapilacak
                 .build();
+    }
+
+    // Not :  getLessonProgramByStudent() ******************************************************
+    public Set<LessonProgramResponse> getLessonProgramByStudent(String username) {
+
+        return lessonProgramRepository.getLessonProgramByStudentUsername(username)
+                .stream()
+                .map(this::createLessonProgramResponseForStudent)
+                .collect(Collectors.toSet());
+    }
+
+    public LessonProgramResponse createLessonProgramResponseForStudent(LessonProgram lessonProgram){
+
+        return LessonProgramResponse.builder()
+                .day(lessonProgram.getDay())
+                .startTime(lessonProgram.getStartTime())
+                .stopTime(lessonProgram.getStopTime())
+                .lessonProgramId(lessonProgram.getId())
+                .lessonName(lessonProgram.getLesson())
+                // TODO Teacher yazilinca eklenecek
+                .build();
+
+    }
+
+    // Not :  getAllWithPage() ******************************************************************
+    public Page<LessonProgramResponse> search(int page, int size, String sort, String type) {
+
+        Pageable pageable = PageRequest.of(page,size, Sort.by(sort).ascending());
+        if(Objects.equals(type,"desc")) {
+            pageable = PageRequest.of(page,size, Sort.by(sort).descending());
+        }
+
+        return lessonProgramRepository.findAll(pageable).map(this::createLessonProgramResponse);
+    }
+
+    // Not: getLessonProgramById() ***************************************************************
+    public Set<LessonProgram> getLessonProgramById(Set<Long> lessonIdList) {
+
+        return lessonProgramRepository.getLessonProgramByLessonProgramIdList(lessonIdList);
     }
 }
