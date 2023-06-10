@@ -18,10 +18,10 @@ import java.util.Set;
 public class TeacherRequest extends BaseUserRequest {
 
     @NotNull(message = "Please select Lesson")
-    private Set<Long> lessonIdList;
+    private Set<Long> lessonsIdList;
 
     @NotNull(message = "Please select isAdvisor Teacher")
-    private Boolean isAdvisorTeacher;
+    private boolean isAdvisorTeacher;
 
 
     @NotNull(message = "Please enter your email")

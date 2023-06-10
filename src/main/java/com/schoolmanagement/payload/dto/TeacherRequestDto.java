@@ -19,7 +19,7 @@ public class TeacherRequestDto {
                 .password(teacherRequest.getPassword())
                 .phoneNumber(teacherRequest.getPhoneNumber())
                 .email(teacherRequest.getEmail())
-                .isAdvisor(teacherRequest.getIsAdvisorTeacher())
+                .isAdvisor(teacherRequest.isAdvisorTeacher())
                 .gender(teacherRequest.getGender())
                 .build();
     }
