@@ -26,6 +26,8 @@ public class Messages {
     public static final String LESSON_PROGRAM_NOT_FOUND_MESSAGE = "Error: Lesson Program not found" ;
     public static final String LESSON_PROGRAM_EXIST_MESSAGE = "Error: Course schedule can not be selected fir the same hour and date" ;
 
+    public static final String NOT_FOUND_ADVISOR_MESSAGE = "Error: Advisor Teacher with id %s not found" ;
+
 
 
 

@@ -84,7 +84,8 @@ public class AdvisorTeacherService {
     // Not: updateAdvisorTeacher() ****************************************************
     public void updateAdvisorTeacher(boolean status, Teacher teacher) {
         // !!! teacherId ile iliskilendirilmis AdvisorTeacher nesnesini DB den bulup getiriyoruz
-        Optional<AdvisorTeacher> advisorTeacher = advisorTeacherRepository.getAdvisorTeacherByTeacher_Id(teacher.getId());
+        Optional<AdvisorTeacher> advisorTeacher =
+                advisorTeacherRepository.getAdvisorTeacherByTeacher_Id(teacher.getId());
 
         AdvisorTeacher.AdvisorTeacherBuilder advisorTeacherBuilder = AdvisorTeacher.builder()
                 .teacher(teacher)
@@ -98,8 +99,13 @@ public class AdvisorTeacherService {
                 advisorTeacherRepository.deleteById(advisorTeacher.get().getId());
             }
         } else {
-            advisorTeacherRepository.save(advisorTeacherBuilder.build());
+            advisorTeacherRepository.save(advisorTeacherBuilder.build()); // TODO buraya bakilacak
         }
 
+    }
+
+    // Not: StudentService icin gerekli metod ***************************
+    public Optional<AdvisorTeacher> getAdvisorTeacherById(Long id) {
+        return advisorTeacherRepository.findById(id);
     }
 }
