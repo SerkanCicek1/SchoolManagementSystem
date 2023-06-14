@@ -26,5 +26,6 @@ public class LessonProgramResponse {
     private LocalTime stopTime;
     private Set<Lesson> lessonName;
     private EducationTerm educationTerm;
-    // TODO student ve teacher yazilinca eklemeler yapilacak
+    private Set<TeacherResponse> teachers;
+    private Set<StudentResponse> students;
 }
