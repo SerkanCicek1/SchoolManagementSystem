@@ -28,6 +28,8 @@ public class Messages {
 
     public static final String NOT_FOUND_ADVISOR_MESSAGE = "Error: Advisor Teacher with id %s not found" ;
 
+    public static final String STUDENT_INFO_NOT_FOUND = "Error: Student Info with id %d not found" ;
+
 
 
 

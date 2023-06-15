@@ -119,4 +119,14 @@ public class LessonService {
 
         return lessonRepository.getLessonByLessonIdList(lessons);
     }
+
+
+    // Not: StudentInfoService icin yazildi
+    public Lesson getLessonById(Long lessonId) {
+
+        if(!lessonRepository.existsByLessonIdEquals(lessonId))
+            throw  new ResourceNotFoundException(String.format(Messages.NOT_FOUND_LESSON_MESSAGE,lessonId));
+
+        return lessonRepository.findByLessonIdEquals(lessonId);
+    }
 }
