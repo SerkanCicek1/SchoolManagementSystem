@@ -5,6 +5,7 @@ import com.schoolmanagement.entity.enums.Note;
 import com.schoolmanagement.exception.ConflictException;
 import com.schoolmanagement.exception.ResourceNotFoundException;
 import com.schoolmanagement.payload.request.StudentInfoRequestWithoutTeacherId;
+import com.schoolmanagement.payload.request.UpdateStudentInfoRequest;
 import com.schoolmanagement.payload.response.ResponseMessage;
 import com.schoolmanagement.payload.response.StudentInfoResponse;
 import com.schoolmanagement.payload.response.StudentResponse;
@@ -13,8 +14,13 @@ import com.schoolmanagement.utils.Messages;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -167,4 +173,128 @@ public class StudentInfoService {
                 .httpStatus(HttpStatus.OK)
                 .build();
     }
+
+
+
+
+    // Not: update()****************************************************************
+
+    public ResponseMessage<StudentInfoResponse> update(UpdateStudentInfoRequest studentInfoRequest, Long studentInfoId) {
+
+        //!!! Parametreden gelen datalar ile nesneler elde ediliyor
+        Lesson lesson = lessonService.getLessonById(studentInfoRequest.getLessonId());
+        StudentInfo getStudentInfo = getStudentInfoById(studentInfoId);
+        EducationTerm educationTerm = educationTermService.getById(studentInfoRequest.getEducationTermId());
+
+        // !!! Dersnot ortalamasi hesaplaniyor
+        Double noteAverage = calculateExamAverage(studentInfoRequest.getMidtermExam(), studentInfoRequest.getFinalExam());
+        //!!! AlfabetikNot belirlenecek
+        Note note = checkLetterGrade(noteAverage);
+        // !!! DTO--> POJO
+        StudentInfo studentInfo = createUpdatedStudent(studentInfoRequest, studentInfoId,lesson, educationTerm, note, noteAverage);
+        // !!! Student ve Teacher nesneleri ekleniyor
+        studentInfo.setStudent(getStudentInfo.getStudent());
+        studentInfo.setTeacher(getStudentInfo.getTeacher());
+        // !!! DB kayit islemi
+        StudentInfo updatedStudentInfo = studentInfoRepository.save(studentInfo);
+
+        // !!! Response nesnesi olusturuluyor
+
+        return ResponseMessage.<StudentInfoResponse>builder()
+                .message("Student Info Updated Successfully")
+                .httpStatus(HttpStatus.OK)
+                .object(createResponse(updatedStudentInfo))
+                .build();
+    }
+
+    private StudentInfo getStudentInfoById(Long studentInfoId ){
+
+        if(!studentInfoRepository.existsByIdEquals(studentInfoId)) {
+            throw new ResourceNotFoundException(String.format(Messages.STUDENT_INFO_NOT_FOUND, studentInfoId));
+        }
+        return studentInfoRepository.findByIdEquals(studentInfoId);
+    }
+
+    private StudentInfo createUpdatedStudent(UpdateStudentInfoRequest studentInfoRequest,
+                                             Long studentInfoRequestId,
+                                             Lesson lesson,
+                                             EducationTerm educationTerm,
+                                             Note note,
+                                             Double average) {
+        return StudentInfo.builder()
+                .id(studentInfoRequestId)
+                .infoNote(studentInfoRequest.getInfoNote())
+                .midtermExam(studentInfoRequest.getMidtermExam())
+                .finalExam(studentInfoRequest.getFinalExam())
+                .absentee(studentInfoRequest.getAbsentee())
+                .lesson(lesson)
+                .educationTerm(educationTerm)
+                .examAverage(average)
+                .letterGrade(note)
+                .build();
+    }
+
+
+
+
+    // Not: getAllForAdmin()*********************************************************
+
+    public Page<StudentInfoResponse> getAllForAdmin(Pageable pageable) {
+
+        return studentInfoRepository.findAll(pageable).map(this::createResponse);
+    }
+
+    // Not: getAllForTeacher()*********************************************************
+
+    // ODEV : alttaki methoddaki ya yoksa kontolunu buraya ekleyelim
+
+    public Page<StudentInfoResponse> getAllTeacher(Pageable pageable, String username) {
+        return studentInfoRepository.findByTeacherId_UsernameEquals(username,pageable).map(this::createResponse);
+    }
+
+
+
+    // Not: getAllForStudent()*********************************************************
+
+    public Page<StudentInfoResponse> getAllStudentInfoByStudent(String username, Pageable pageable) {
+        boolean student = studentService.existByUsername(username);
+
+        if(!student) throw new ResourceNotFoundException(Messages.NOT_FOUND_USER_MESSAGE);
+        return studentInfoRepository.findByStudentId_UsernameEquals(username,pageable).map(this::createResponse);
+    }
+
+
+    // Not: getStudentInfoByStudentId()*************************************************
+
+
+    public List<StudentInfoResponse> getStudentInfoByStudentId(Long studentId) {
+
+        if(!studentService.existById(studentId)) {
+            throw new ResourceNotFoundException(String.format(Messages.NOT_FOUND_USER2_MESSAGE, studentId));
+        }
+        if(!studentInfoRepository.existsByStudent_IdEquals(studentId)) {
+            throw new ResourceNotFoundException(String.format(Messages.STUDENT_INFO_NOT_FOUND_BY_STUDENT_ID, studentId));
+        }
+
+        return studentInfoRepository.findByStudent_IdEquals(studentId)
+                .stream()
+                .map(this::createResponse)
+                .collect(Collectors.toList());
+    }
+
+    // Not: getStudentInfoById()*******************************************************
+
+    public StudentInfoResponse findStudentInfoById(Long id) {
+
+        if(!studentInfoRepository.existsByIdEquals(id)) {
+            throw new ResourceNotFoundException(String.format(Messages.STUDENT_INFO_NOT_FOUND,id));
+        }
+
+        return createResponse(studentInfoRepository.findByIdEquals(id));
+
+    }
+
+    // Not: getAllWithPage()******************************************************
+
+    // ODEV
 }

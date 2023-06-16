@@ -260,4 +260,12 @@ public class StudentService {
                 .map(this::createStudentResponse)
                 .collect(Collectors.toList());
     }
+
+    public boolean existByUsername(String username) {
+        return studentRepository.existsByUsername(username);
+    }
+
+    public boolean existById(Long studentId) {
+        return studentRepository.existsById(studentId);
+    }
 }
