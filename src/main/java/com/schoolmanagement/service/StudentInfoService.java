@@ -15,11 +15,14 @@ import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.message.StringFormattedMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -183,6 +186,7 @@ public class StudentInfoService {
 
         //!!! Parametreden gelen datalar ile nesneler elde ediliyor
         Lesson lesson = lessonService.getLessonById(studentInfoRequest.getLessonId());
+        // TODO : öğrencinin matematik ve fizik infosu olsa fiziği matematik yapmaya çalışırken hata fırlatmamız lazım değil mi ??
         StudentInfo getStudentInfo = getStudentInfoById(studentInfoId);
         EducationTerm educationTerm = educationTermService.getById(studentInfoRequest.getEducationTermId());
 
@@ -246,13 +250,11 @@ public class StudentInfoService {
 
     // Not: getAllForTeacher()*********************************************************
 
-    // ODEV : alttaki methoddaki ya yoksa kontolunu buraya ekleyelim
+
 
     public Page<StudentInfoResponse> getAllTeacher(Pageable pageable, String username) {
         return studentInfoRepository.findByTeacherId_UsernameEquals(username,pageable).map(this::createResponse);
     }
-
-
 
     // Not: getAllForStudent()*********************************************************
 
@@ -294,7 +296,16 @@ public class StudentInfoService {
 
     }
 
+
     // Not: getAllWithPage()******************************************************
 
-    // ODEV
+    public Page<StudentInfoResponse> search(int page, int size, String sort, String type) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sort).ascending());
+        if (Objects.equals(type, "desc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sort).descending());
+        }
+
+        return studentInfoRepository.findAll(pageable).map(this::createResponse);
+    }
 }

@@ -102,10 +102,24 @@ public class AdvisorTeacherService {
             advisorTeacherRepository.save(advisorTeacherBuilder.build()); // TODO buraya bakilacak
         }
 
+/*        if (advisorTeacher.isPresent()) {
+            if (status) {
+                advisorTeacherBuilder.id(advisorTeacher.get().getId());
+                advisorTeacherRepository.save(advisorTeacherBuilder.build());
+            } else {
+                advisorTeacherRepository.deleteById(advisorTeacher.get().getId());
+            }
+        }*/
+
     }
 
     // Not: StudentService icin gerekli metod ***************************
     public Optional<AdvisorTeacher> getAdvisorTeacherById(Long id) {
         return advisorTeacherRepository.findById(id);
+    }
+
+    public Optional<AdvisorTeacher> getAdvisorTeacherByUsername(String username) {
+
+        return advisorTeacherRepository.findByTeacher_UsernameEquals(username);
     }
 }
