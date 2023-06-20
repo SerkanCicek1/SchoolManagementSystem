@@ -17,14 +17,14 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class MeetRequestWithoutId {
+public class UpdateMeetRequest {
 
     @NotNull(message = "Please enter description")
-    @Size(min=2, max= 250, message = "Description should be at least 2 chars")
-    @Pattern(regexp = "\\A(?!\\s*\\Z).+" ,message="Description must consist of the characters .")
+    @Size(min=6, max= 250, message = " Your description should be at least 6 chars")
+    @Pattern(regexp = "\\A(?!\\s*\\Z).+" ,message="Your description must consist of the characters .")
     private String description;
 
-    @NotNull(message = "Please enter day")
+    @NotNull(message = "Please enter date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Future
     private LocalDate date;
@@ -38,5 +38,5 @@ public class MeetRequestWithoutId {
     private LocalTime stopTime;
 
     @NotNull(message = "Please select students")
-    private Long[] studentIds; // TODO : Set ?
+    private Long[] studentIds;
 }

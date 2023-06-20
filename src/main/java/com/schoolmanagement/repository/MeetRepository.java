@@ -13,4 +13,6 @@ public interface MeetRepository extends JpaRepository<Meet, Long> {
 
     Page<Meet> findByAdvisorTeacher_IdEquals(Long id, Pageable pageable);
 
+    List<Meet> getByAdvisorTeacher_IdEquals(Long id);
+
 }
