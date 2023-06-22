@@ -23,6 +23,12 @@ public class StudentController {
     private final StudentService studentService;
 
     // Not: Save() **********************************************************
+    /*
+    *{
+    "username" : "student2",
+    "password" : "12345678"
+}
+    * */
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
     @PostMapping("/save")
     public ResponseMessage<StudentResponse> save(@RequestBody @Valid StudentRequest studentRequest) {

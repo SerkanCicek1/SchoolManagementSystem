@@ -12,6 +12,7 @@ import com.schoolmanagement.payload.response.LessonProgramResponse;
 import com.schoolmanagement.payload.response.ResponseMessage;
 import com.schoolmanagement.payload.response.TeacherResponse;
 import com.schoolmanagement.repository.LessonProgramRepository;
+import com.schoolmanagement.utils.CreateResponseObjectForService;
 import com.schoolmanagement.utils.Messages;
 import com.schoolmanagement.utils.TimeControl;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class LessonProgramService {
     private final LessonService lessonService;
     private final LessonProgramDto lessonProgramDto;
     private final EducationTermService educationTermService;
-    private final StudentService studentService;
+    private final CreateResponseObjectForService createResponseObjectForService;
 
 
     // Not :  Save() *************************************************************************
@@ -94,13 +95,15 @@ public class LessonProgramService {
                 .startTime(lessonProgram.getStartTime())
                 .stopTime(lessonProgram.getStopTime())
                 .lessonProgramId(lessonProgram.getId())
-                .lessonName(lessonProgram.getLesson())
+                //.lessonName(lessonProgram.getLesson())
                 .teachers(lessonProgram.getTeachers()
                         .stream()
                         .map(this::createTeacherResponse)
                         .collect(Collectors.toSet()))
-
-                //TODO Student yazilinca buraya ekleme yapilacak
+                .students(lessonProgram.getStudents()
+                        .stream()
+                        .map(createResponseObjectForService::createStudentResponse)
+                        .collect(Collectors.toSet()))
                 .build();
     }
 
@@ -180,11 +183,10 @@ public class LessonProgramService {
                 .stopTime(lessonProgram.getStopTime())
                 .lessonProgramId(lessonProgram.getId())
                 .lessonName(lessonProgram.getLesson())
-                //TODO Student yazilinca buraya ekleme yapilacak
-                /*    .students(lessonProgram.getStudents()
-                            .stream()
-                            .map() // TODO
-                            .collect(Collectors.toSet()))*/
+                .students(lessonProgram.getStudents()
+                        .stream()
+                        .map(createResponseObjectForService::createStudentResponse)
+                        .collect(Collectors.toSet()))
                 .build();
     }
 

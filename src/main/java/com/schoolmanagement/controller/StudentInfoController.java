@@ -127,6 +127,16 @@ public class StudentInfoController {
 
     // Not: getAllWithPage()******************************************************
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
+    @GetMapping("/search")
+    public Page<StudentInfoResponse> search(
+            @RequestParam(value = "page") int page,
+            @RequestParam(value = "size") int size,
+            @RequestParam(value = "sort") String sort,
+            @RequestParam(value = "type") String type
+    ) {
+        return  studentInfoService.search(page,size,sort,type);
+    }
 
 
 
