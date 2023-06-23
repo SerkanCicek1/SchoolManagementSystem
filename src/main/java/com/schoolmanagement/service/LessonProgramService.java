@@ -42,7 +42,7 @@ public class LessonProgramService {
     // Not :  Save() *************************************************************************
     public ResponseMessage<LessonProgramResponse> save(LessonProgramRequest request) {
         // !!! Lesson Programda olacak dersleri LessonService uzerinden getiriyorum
-        Set<Lesson> lessons = lessonService.getLessonByLessonIdList(request.getLessonIdList());
+        List<Lesson> lessons = lessonService.getLessonByLessonIdList(request.getLessonIdList());
         // !!! EducationTerm id ile getiriliyor
         EducationTerm educationTerm = educationTermService.getById(request.getEducationTermId());
         // !!! yukarda gelen lessons ici bos degilse zaman kontrolu yapiliyor :
@@ -66,7 +66,7 @@ public class LessonProgramService {
 
     }
 
-    private LessonProgram lessonProgramRequestToDto(LessonProgramRequest lessonProgramRequest, Set<Lesson> lessons) {
+    private LessonProgram lessonProgramRequestToDto(LessonProgramRequest lessonProgramRequest, List<Lesson> lessons) {
         return lessonProgramDto.dtoLessonProgram(lessonProgramRequest, lessons);
     }
 

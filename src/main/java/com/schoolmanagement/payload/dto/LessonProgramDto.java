@@ -6,13 +6,14 @@ import com.schoolmanagement.payload.request.LessonProgramRequest;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
 public class LessonProgramDto {
 
     // DTO --> POJO donusumu
-    public LessonProgram dtoLessonProgram(LessonProgramRequest lessonProgramRequest, Set<Lesson> lessons){
+    public LessonProgram dtoLessonProgram(LessonProgramRequest lessonProgramRequest, List<Lesson> lessons){
 
         return LessonProgram.builder()
                 .startTime(lessonProgramRequest.getStartTime())

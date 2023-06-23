@@ -115,7 +115,7 @@ public class LessonService {
     }
 
     // Not :  getAllLessonByLessonIds() *****************************************************
-    public Set<Lesson> getLessonByLessonIdList(Set<Long> lessons) {
+    public List<Lesson> getLessonByLessonIdList(List<Long> lessons) {
 
         return lessonRepository.getLessonByLessonIdList(lessons);
     }

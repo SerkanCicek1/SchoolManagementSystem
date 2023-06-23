@@ -1,26 +1,23 @@
 package com.schoolmanagement.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.schoolmanagement.entity.concretes.EducationTerm;
-import com.schoolmanagement.entity.concretes.Lesson;
 import com.schoolmanagement.entity.enums.Day;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder(toBuilder = true)
-public class LessonProgramRequest {
+public class LessonProgramRequestForUpdate {
 
     @NotNull(message="Please enter day")
     private Day day;  //
@@ -39,4 +36,12 @@ public class LessonProgramRequest {
 
     @NotNull(message="Please enter education term")
     private Long educationTermId;
+
+    @NotNull(message = "Please select student ")
+    @Size(min = 1, message = "student must not empty")
+    private List<Long> studentIdList;
+
+    @NotNull(message = "Please select teacher ")
+    @Size(min = 1, message = "teacher must not empty")
+    private List<Long> teacherIdList;
 }

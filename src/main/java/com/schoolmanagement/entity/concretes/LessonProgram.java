@@ -9,6 +9,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,7 +40,7 @@ public class LessonProgram implements Serializable {
             joinColumns = @JoinColumn(name = "lessonprogram_id"),
             inverseJoinColumns = @JoinColumn(name = "lesson_id")
     )
-    private Set<Lesson> lesson;
+    private List<Lesson> lesson;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private EducationTerm educationTerm;

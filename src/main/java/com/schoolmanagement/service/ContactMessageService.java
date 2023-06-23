@@ -32,11 +32,12 @@ public class ContactMessageService {
     public ResponseMessage<ContactMessageResponse> save(ContactMessageRequest contactMessageRequest) {
 
         // !!! ayni kisi ayni gun icinde sadece 1 defa mesaj gonderebilsin
-        boolean isSameMessageWithSameEmailForToday =
-                contactMessageRepository.existsByEmailEqualsAndDateEquals(contactMessageRequest.getEmail(),
-                        LocalDate.now());
+  /*       boolean isSameMessageWithSameEmailForToday =
+                 contactMessageRepository.existsByEmailEqualsAndDateEquals(contactMessageRequest.getEmail(),
+                                                                            LocalDate.now());
 
-        if(isSameMessageWithSameEmailForToday) throw new ConflictException(String.format(ALREADY_SEND_A_MESSAGE_TODAY));
+         if(isSameMessageWithSameEmailForToday) throw new ConflictException(String.format(ALREADY_SEND_A_MESSAGE_TODAY));
+   */
 
         // !!! DTO-POJO donusumu ( odev )
         ContactMessage contactMessage = createObject(contactMessageRequest);

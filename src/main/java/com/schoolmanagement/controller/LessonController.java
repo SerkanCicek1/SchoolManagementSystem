@@ -39,7 +39,7 @@ public class LessonController {
     // Not :  Delete() *************************************************************************
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
     @DeleteMapping("/delete/{id}") // http://localhost:8080/lessons/delete/1
-    public ResponseMessage deleteLesson(@PathVariable Long id) {
+    public ResponseMessage<?> deleteLesson(@PathVariable Long id) {
         return lessonService.deleteLesson(id);
     }
 
@@ -72,11 +72,11 @@ public class LessonController {
     // Not :  getAllLessonByLessonIds() *****************************************************
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
     @GetMapping("/getAllLessonByLessonId")  // http://localhost:8080/lessons/getAllLessonByLessonId?lessonId=1,2
-    public Set<Lesson> getAllLessonByLessonId(@RequestParam(name = "lessonId") Set<Long> idList){
+    public List<Lesson> getAllLessonByLessonId(@RequestParam(name = "lessonId") List<Long> idList){
         return lessonService.getLessonByLessonIdList(idList);
     }
 
-    // TODO : Update methodu yazilacak
+
 
 
 

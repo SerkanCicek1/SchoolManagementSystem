@@ -63,11 +63,11 @@ public class LessonProgramController {
         return lessonProgramService.deleteLessonProgram(id);
     }
     // Not :  getLessonProgramByTeacher() ******************************************************
-    @PreAuthorize("hasAnyAuthority('TEACHER','ADMIN','MANAGER','ASSISTANTMANAGER')")
+    @PreAuthorize("hasAnyAuthority('TEACHER','ADMIN','MANAGER','ASSISTANT_MANAGER')")
     @GetMapping("/getAllLessonProgramByTeacher")  //http://localhost:8080/lessonPrograms/getAllLessonProgramByTeacher
     public Set<LessonProgramResponse> getAllLessonProgramByTeacherId(HttpServletRequest httpServletRequest) {
 
-        String username = (String) httpServletRequest.getAttribute("username");
+        String username = httpServletRequest.getHeader("username");
         return lessonProgramService.getLessonProgramByTeacher(username);
 
     }
@@ -77,7 +77,7 @@ public class LessonProgramController {
     @GetMapping("/getAllLessonProgramByStudent") //http://localhost:8080/lessonPrograms/getAllLessonProgramByStudent
     public Set<LessonProgramResponse> getAllLessonProgramByStudent(HttpServletRequest httpServletRequest) {
 
-        String username = (String) httpServletRequest.getAttribute("username");
+        String username = httpServletRequest.getHeader("username");
         return lessonProgramService.getLessonProgramByStudent(username);
     }
 
