@@ -22,6 +22,14 @@ public class LessonController {
     private final LessonService lessonService;
 
     // Not :  Save() *************************************************************************
+
+    /*
+        {
+          "lessonName": "Example Lesson",
+          "creditScore": 5,
+          "isCompulsory": true
+        }
+     */ // Ornek JSON
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
     @PostMapping("/save") // http://localhost:8080/lessons/save
     public ResponseMessage<LessonResponse> save(@RequestBody @Valid LessonRequest lesson) {
@@ -31,13 +39,13 @@ public class LessonController {
     // Not :  Delete() *************************************************************************
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
     @DeleteMapping("/delete/{id}") // http://localhost:8080/lessons/delete/1
-    public ResponseMessage deleteLesson(@PathVariable Long id) {
+    public ResponseMessage<?> deleteLesson(@PathVariable Long id) {
         return lessonService.deleteLesson(id);
     }
 
     // Not : getLessonByLessonName() **********************************************************
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
-    @GetMapping("/getLessonByName") // http://localhost:8080/lessons/getLessonName?lessonName=Math
+    @GetMapping("/getLessonByName") // http://localhost:8080/lessons/getLessonByName?lessonName=Math
     public ResponseMessage<LessonResponse> getLessonByLessonName(@RequestParam String lessonName) {
         return lessonService.getLessonByLessonName(lessonName);
     }
@@ -51,7 +59,7 @@ public class LessonController {
 
     // Not :  getAllWithPage() **********************************************************
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
-    @GetMapping("/search")   // http://localhost:8080/lessons/search
+    @GetMapping("/search")   // http://localhost:8080/lessons/search?page=0&size=1&sort=lessonName&type=desc
     public Page<LessonResponse> search(
             @RequestParam(value = "page") int page,
             @RequestParam(value = "size") int size,
@@ -63,12 +71,12 @@ public class LessonController {
 
     // Not :  getAllLessonByLessonIds() *****************************************************
     @PreAuthorize("hasAnyAuthority('ADMIN','MANAGER','ASSISTANTMANAGER')")
-    @GetMapping("/getAllLessonByLessonId")  // http://localhost:8080/lessons/getAllLessonByLessonId
-    public Set<Lesson> getAllLessonByLessonId(@RequestParam(name = "lessonId") Set<Long> idList){
+    @GetMapping("/getAllLessonByLessonId")  // http://localhost:8080/lessons/getAllLessonByLessonId?lessonId=1,2
+    public List<Lesson> getAllLessonByLessonId(@RequestParam(name = "lessonId") List<Long> idList){
         return lessonService.getLessonByLessonIdList(idList);
     }
 
-    // TODO : Update methodu yazilacak
+
 
 
 

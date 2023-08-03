@@ -30,7 +30,7 @@ public class DeanController {
 
     // Not :  UpdateById() **********************************************
     @PutMapping("/update/{userId}") // http://localhost:8080/dean/update/1
-    @PreAuthorize("hasAuthority('ADMIN')") // TODO : Dean eklenmeli
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseMessage<DeanResponse> update(@RequestBody @Valid DeanRequest deanRequest,
                                                 @PathVariable Long userId) {
         return deanService.update(deanRequest, userId);
@@ -63,6 +63,7 @@ public class DeanController {
 
     // Not :  Search() *************************************************************************
     @PreAuthorize("hasAuthority('ADMIN')")
+    // !!! method ismi degismeli--> getAllWithPage olabilir
     @GetMapping("/search") // hht://localhost:8080/dean/search
     public Page<DeanResponse> search( // TODO getALLWithPAge
                                       @RequestParam(value = "page") int page,
@@ -73,5 +74,13 @@ public class DeanController {
 
         return deanService.search(page,size,sort,type);
     }
+
+
+
+
+
+
+
+
 
 }

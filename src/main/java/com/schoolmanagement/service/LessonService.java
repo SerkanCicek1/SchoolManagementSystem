@@ -115,8 +115,18 @@ public class LessonService {
     }
 
     // Not :  getAllLessonByLessonIds() *****************************************************
-    public Set<Lesson> getLessonByLessonIdList(Set<Long> lessons) {
+    public List<Lesson> getLessonByLessonIdList(List<Long> lessons) {
 
         return lessonRepository.getLessonByLessonIdList(lessons);
+    }
+
+
+    // Not: StudentInfoService icin yazildi
+    public Lesson getLessonById(Long lessonId) {
+
+        if(!lessonRepository.existsByLessonIdEquals(lessonId))
+            throw  new ResourceNotFoundException(String.format(Messages.NOT_FOUND_LESSON_MESSAGE,lessonId));
+
+        return lessonRepository.findByLessonIdEquals(lessonId);
     }
 }

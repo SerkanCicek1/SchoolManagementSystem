@@ -50,7 +50,7 @@ public abstract class BaseUserRequest implements Serializable {
 
     @NotNull(message = "Please enter your birth place")
     @Size(min=2, max=16, message = "Your birth place should be at least 2 chars")
-    @Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "Your surname must consist of the characters .")
+    @Pattern(regexp = "\\A(?!\\s*\\Z).+", message = "Your birth place must consist of the characters .")
     private String birthPlace;
 
     @NotNull(message = "Please enter your password")

@@ -9,6 +9,7 @@ import com.schoolmanagement.payload.response.ResponseMessage;
 import com.schoolmanagement.payload.response.ViceDeanResponse;
 import com.schoolmanagement.repository.ViceDeanRepository;
 import com.schoolmanagement.utils.CheckParameterUpdateMethod;
+import com.schoolmanagement.utils.FieldControl;
 import com.schoolmanagement.utils.Messages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,15 +30,16 @@ import java.util.stream.Collectors;
 public class ViceDeanService {
 
     private final ViceDeanRepository viceDeanRepository;
-    private final AdminService adminService;
+    private final FieldControl fieldControl;
     private final ViceDeanDto viceDeanDto;
     private final UserRoleService userRoleService;
     private final PasswordEncoder passwordEncoder;
 
+
     // Not :  Save() *************************************************************************
     public ResponseMessage<ViceDeanResponse> save(ViceDeanRequest viceDeanRequest) {
 
-        adminService.checkDuplicate(viceDeanRequest.getUsername(), viceDeanRequest.getSsn(), viceDeanRequest.getPhoneNumber());
+        fieldControl.checkDuplicate(viceDeanRequest.getUsername(), viceDeanRequest.getSsn(), viceDeanRequest.getPhoneNumber());
         ViceDean viceDean = createPojoFromDTO(viceDeanRequest);
         // Roll ve password encode islemleri
         viceDean.setUserRole(userRoleService.getUserRole(RoleType.ASSISTANTMANAGER));
@@ -84,7 +86,7 @@ public class ViceDeanService {
         if(!viceDean.isPresent()) {
             throw new ResourceNotFoundException(String.format(Messages.NOT_FOUND_USER2_MESSAGE,managerId));
         }else if(!CheckParameterUpdateMethod.checkParameter(viceDean.get(), newViceDean )) {
-            adminService.checkDuplicate(newViceDean.getUsername(), newViceDean.getSsn(), newViceDean.getPhoneNumber());
+            fieldControl.checkDuplicate(newViceDean.getUsername(), newViceDean.getSsn(), newViceDean.getPhoneNumber());
         }
 
         ViceDean updatedViceDean = createUpdatedViceDean(newViceDean, managerId);

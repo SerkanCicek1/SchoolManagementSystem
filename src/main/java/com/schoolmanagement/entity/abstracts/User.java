@@ -53,4 +53,11 @@ public abstract class User implements Serializable {
 
     private Gender gender;
 
+
+
+
+
+
+
+
 }

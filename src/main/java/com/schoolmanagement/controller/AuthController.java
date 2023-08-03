@@ -42,7 +42,7 @@ public class AuthController {
         // !!! valide edilen kullanici Context e atiliyor
         SecurityContextHolder.getContext().setAuthentication(authentication);
         // !!! JWT token olusturuluyor
-        String token = "Bearer " + jwtUtils.generateJwtToken(authentication);
+        String token = jwtUtils.generateJwtToken(authentication);
 
         // !!! GrantedAuthority turundeki role yapisini String turune ceviriliyor
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

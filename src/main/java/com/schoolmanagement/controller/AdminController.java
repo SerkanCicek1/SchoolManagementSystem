@@ -24,6 +24,13 @@ public class AdminController {
     private final AdminService adminService;
 
     // Not: save()  *******************************************************
+
+    /*
+        {
+            "username" : "Admin",
+             "password" : "12345678"
+        }
+        */
     @PostMapping("/save")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public ResponseEntity<?> save(@RequestBody @Valid AdminRequest adminRequest){

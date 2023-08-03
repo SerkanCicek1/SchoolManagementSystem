@@ -1,5 +1,6 @@
 package com.schoolmanagement.entity.concretes;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.schoolmanagement.entity.abstracts.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -17,6 +18,7 @@ import java.util.Set;
 @ToString(callSuper = true)
 public class Teacher extends User {
 
+    @JsonIgnore
     @OneToOne(mappedBy = "teacher", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private AdvisorTeacher advisorTeacher;
 
@@ -30,6 +32,7 @@ public class Teacher extends User {
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE)
     private List<StudentInfo> studentInfos;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "teacher_lessonprogram",

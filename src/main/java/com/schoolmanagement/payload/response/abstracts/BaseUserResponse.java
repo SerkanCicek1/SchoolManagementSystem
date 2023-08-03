@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@MappedSuperclass
+//@MappedSuperclass
 public abstract class BaseUserResponse {
 
     private Long userId;
